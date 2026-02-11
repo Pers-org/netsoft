@@ -9,7 +9,7 @@ class User:
         self.age = age
         self.id = str(uuid.uuid4())
         
-user_db = []
+user_db = [User("Ivan", "20"), User("Andrew", "30"), User("Peter", "25")]
 
 
 @app.get("/main")
@@ -35,19 +35,19 @@ def add_user():
 def edit_user():
     data = request.get_json(force=True)
     target_id = data["id"]
-    for u in user_db:
-        if u["id"] == target_id:
-            u["name"] = data["name"]
-            u["age"] = data["age"]
-            return jsonify(u)
+    for user in user_db:
+        if user["id"] == target_id:
+            user["name"] = data["name"]
+            user["age"] = data["age"]
+            return jsonify(user)
     return jsonify({"message": "User not found"}), 404
 
 @app.delete("/")
 def delete_user():
     data = request.get_json(force=True)
     target_id = data["id"]
-    for i, u in enumerate(user_db):
-        if u["id"] == target_id:
+    for i, user in enumerate(user_db):
+        if user["id"] == target_id:
             deleted = user_db.pop(i)
             return jsonify(deleted)
     return jsonify({"message": "User not found"}), 404
