@@ -4,7 +4,7 @@ metadata:
   name: netsoft
   namespace: netsoft
 spec:
-  replicas: {{.Values.replicas}}
+  replicas: {{.Values.deployment.replicas}}
   selector:
     matchLabels:
       app: netsoft
@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: netsoft
-          image: {{.Values.image}}
+          image: {{.Values.deployment.image}}
           ports:
             - containerPort: 80
