@@ -55,6 +55,9 @@ jobs:
 
       - name: Set up kubeconfig
         run: |
+          echo $KUBECONFIG
+          whoami
+          echo $HOME
           cd ~/
           ls
           mkdir -p ~/.kube
