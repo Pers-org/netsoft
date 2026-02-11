@@ -16,7 +16,11 @@ jobs:
       packages: write
 
     runs-on: my-runners
-    
+
+    outputs:
+      image_tag: ${{ steps.meta.outputs.version }}
+      image_full: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
     steps:
       - name: Copy repo to runner
         uses: actions/checkout@v4        
@@ -41,3 +45,25 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{secrets.KUBECONFIG}}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install netsoft ./netsoft \
+            --namespace netsoft --create-namespace \
+            --set image="${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
