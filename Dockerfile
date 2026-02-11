@@ -2,8 +2,7 @@ FROM alpine:latest
 
 RUN apk add --no-cache \
     python3 \
-    py3-flask \
-    py3-fastapi
+    py3-flask
 
 COPY app.py .
 

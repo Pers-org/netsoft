@@ -1,10 +1,5 @@
-from flask import Flask
-import signal
-import sys
+from flask import Flask, request, jsonify
 import uuid
-import json
-from fastapi import Body, status
-from fastapi.responses import JSONResponse
 
 app = Flask(__name__)
 
@@ -17,47 +12,45 @@ class User:
 user_db = []
 
 
-@app.route("/main")
-def test():
-    return """ 
-        <div style="text-align:center; padding-top:250px;">
-            <img src="https://media.tenor.com/IB9ol7welioAAAAM/dance-vibing.gif">
-        </div>
-        """
+@app.get("/main")
+def main_page():
+    return """
+    <div style="text-align:center; padding-top:250px;">
+      <img src="https://media.tenor.com/IB9ol7welioAAAAM/dance-vibing.gif">
+    </div>
+    """
 
 @app.get("/")
-async def get():
-    return JSONResponse(json.dumps(user_db))
+def get_users():
+    return jsonify(user_db)
 
 @app.post("/")
-def add_user(data  = Body()):
-    user = User(data["name"], data["age"])
-    user.append(user)
-    return user
+def add_user():
+    data = request.get_json(force=True)
+    user = {"id": str(uuid.uuid4()), "name": data["name"], "age": data["age"]}
+    user_db.append(user)
+    return jsonify(user), 201
 
 @app.put("/")
-def edit_user(data  = Body()):
+def edit_user():
+    data = request.get_json(force=True)
     target_id = data["id"]
-    
-    for user in user_db:
-        if user.id == target_id:
-            user.name = data["name"]
-            user.age = data["age"]
-            return user
-        
-    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={ "message": "User not found" })
+    for u in user_db:
+        if u["id"] == target_id:
+            u["name"] = data["name"]
+            u["age"] = data["age"]
+            return jsonify(u)
+    return jsonify({"message": "User not found"}), 404
 
 @app.delete("/")
-def delete_user(data  = Body()):
+def delete_user():
+    data = request.get_json(force=True)
     target_id = data["id"]
-    
-    for user in user_db:
-        if user.id == target_id:
-            user_db.remove(user)
-            return user
-        
-    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={ "message": "User not found" })
-
+    for i, u in enumerate(user_db):
+        if u["id"] == target_id:
+            deleted = user_db.pop(i)
+            return jsonify(deleted)
+    return jsonify({"message": "User not found"}), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
