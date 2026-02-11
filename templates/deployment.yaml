@@ -17,4 +17,4 @@ spec:
         - name: netsoft
           image: {{.Values.deployment.image}}
           ports:
-            - containerPort: 80
+            - containerPort: 8000
