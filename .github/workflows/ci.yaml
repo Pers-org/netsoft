@@ -63,6 +63,7 @@ jobs:
           mkdir -p ~/.kube
           echo "${{secrets.KUBECONFIG}}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
+          cat /home/runner/.kube/config
 
       - name: Setup Helm
         uses: azure/setup-helm@v4
