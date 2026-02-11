@@ -15,10 +15,6 @@ jobs:
       packages: write
     runs-on: my-runners
 
-    outputs:
-      image_tag: ${{ github.ref_name }}
-      image_full: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
     steps:
       - uses: actions/checkout@v4
 
@@ -63,7 +59,4 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          echo "${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
-          helm upgrade --install netsoft ./ \
-            --namespace netsoft --create-namespace \
-            --set image="${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
+          helm upgrade --install netsoft ./ --namespace netsoft --create-namespace
