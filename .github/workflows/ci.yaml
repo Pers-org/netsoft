@@ -70,4 +70,4 @@ jobs:
 
           helm upgrade --install netsoft ./ \
             --namespace netsoft --create-namespace \
-            --set image="$IMAGE_LOW"
+            --set deployment.image="$IMAGE_LOW"
