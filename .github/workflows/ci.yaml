@@ -63,9 +63,9 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          IMAGE ="${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
-          IMAGE_LOW=$(echo "$IMAGE" | tr '[:upper:]' '[:lower:]')          
-          
+          IMAGE="${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
+          IMAGE_LOW=$(echo "$IMAGE" | tr '[:upper:]' '[:lower:]')
+
           echo "$IMAGE_LOW"
 
           helm upgrade --install netsoft ./ \
