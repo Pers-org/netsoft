@@ -17,7 +17,7 @@ class User:
 user_db = []
 
 
-@app.route("/")
+@app.route("/main")
 def test():
     return """ 
         <div style="text-align:center; padding-top:250px;">
