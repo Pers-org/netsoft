@@ -12,7 +12,7 @@ class User:
 user_db = [User("Ivan", "20"), User("Andrew", "30"), User("Peter", "25")]
 
 
-@app.get("/main")
+@app.route("/main", methods=["GET"])
 def main_page():
     return """
     <div style="text-align:center; padding-top:250px;">
@@ -24,14 +24,14 @@ def main_page():
 def get_users():
     return jsonify(user_db)
 
-@app.post("/api/users", methods=["POST"])
+@app.route("/api/users", methods=["POST"])
 def add_user():
     data = request.get_json()
     user = {"id": str(uuid.uuid4()), "name": data["name"], "age": data["age"]}
     user_db.append(user)
     return jsonify(user), 201
 
-@app.put("/api/users", methods=["PUT"])
+@app.route("/api/users", methods=["PUT"])
 def edit_user():
     data = request.get_json()
     target_id = data["id"]
@@ -42,7 +42,7 @@ def edit_user():
             return jsonify(user)
     return jsonify({"message": "User not found"}), 404
 
-@app.delete("/api/users", methods=["DELETE"])
+@app.route("/api/users", methods=["DELETE"])
 def delete_user():
     data = request.get_json()
     target_id = data["id"]
