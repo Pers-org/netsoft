@@ -9,8 +9,11 @@ class User:
         self.age = age
         self.id = str(uuid.uuid4())
         
-user_db = [User("Ivan", "20"), User("Andrew", "30"), User("Peter", "25")]
-
+user_db = [
+    {"id": str(uuid.uuid4()), "name": "Ivan", "age": 20},
+    {"id": str(uuid.uuid4()), "name": "Andrew", "age": 30},
+    {"id": str(uuid.uuid4()), "name": "Peter", "age": 25},
+]
 
 @app.route("/main", methods=["GET"])
 def main_page():
