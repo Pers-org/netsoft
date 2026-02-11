@@ -55,11 +55,9 @@ jobs:
 
       - name: Set up kubeconfig
         run: |
-          echo $KUBECONFIG
-          whoami
-          echo $HOME
-          cd ~/
-          ls
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          pwd
+          ls -la
           mkdir -p ~/.kube
           echo "${{secrets.KUBECONFIG}}" > ~/.kube/config
           chmod 600 ~/.kube/config
