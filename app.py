@@ -20,20 +20,20 @@ def main_page():
     </div>
     """
 
-@app.get("/")
+@app.route("/", methods=["GET"])
 def get_users():
     return jsonify(user_db)
 
-@app.post("/")
+@app.post("/", methods=["POST"])
 def add_user():
-    data = request.get_json(force=True)
+    data = request.get_json()
     user = {"id": str(uuid.uuid4()), "name": data["name"], "age": data["age"]}
     user_db.append(user)
     return jsonify(user), 201
 
-@app.put("/")
+@app.put("/", methods=["PUT"])
 def edit_user():
-    data = request.get_json(force=True)
+    data = request.get_json()
     target_id = data["id"]
     for user in user_db:
         if user["id"] == target_id:
@@ -42,9 +42,9 @@ def edit_user():
             return jsonify(user)
     return jsonify({"message": "User not found"}), 404
 
-@app.delete("/")
+@app.delete("/", methods=["DELETE"])
 def delete_user():
-    data = request.get_json(force=True)
+    data = request.get_json()
     target_id = data["id"]
     for i, user in enumerate(user_db):
         if user["id"] == target_id:
