@@ -55,19 +55,15 @@ jobs:
 
       - name: Set up kubeconfig
         run: |
-          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-          pwd
-          ls -la
           mkdir -p ~/.kube
           echo "${{secrets.KUBECONFIG}}" > ~/.kube/config
           chmod 600 ~/.kube/config
-          cat /home/runner/.kube/config
 
       - name: Setup Helm
         uses: azure/setup-helm@v4
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install netsoft ./netsoft \
+          helm upgrade --install netsoft ./ \
             --namespace netsoft --create-namespace \
             --set image="${{ needs.build.outputs.image_full }}:${{ needs.build.outputs.image_tag }}"
