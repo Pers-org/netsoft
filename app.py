@@ -2,12 +2,6 @@ from flask import Flask, request, jsonify
 import uuid
 
 app = Flask(__name__)
-
-class User:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-        self.id = str(uuid.uuid4())
         
 user_db = [
     {"id": str(uuid.uuid4()), "name": "Ivan", "age": 20},
@@ -20,21 +14,23 @@ def main_page():
     return """
     <div style="text-align:center; padding-top:250px;">
       <img src="https://media.tenor.com/IB9ol7welioAAAAM/dance-vibing.gif">
+      <img src="https://media.tenor.com/IB9ol7welioAAAAM/dance-vibing.gif">
+      <img src="https://media.tenor.com/IB9ol7welioAAAAM/dance-vibing.gif">
     </div>
     """
 
-@app.route("/api/users", methods=["GET"])
+@app.get("/api/users")
 def get_users():
     return jsonify(user_db)
 
-@app.route("/api/users", methods=["POST"])
+@app.post("/api/users")
 def add_user():
     data = request.get_json()
     user = {"id": str(uuid.uuid4()), "name": data["name"], "age": data["age"]}
     user_db.append(user)
     return jsonify(user), 201
 
-@app.route("/api/users", methods=["PUT"])
+@app.put("/api/users")
 def edit_user():
     data = request.get_json()
     target_id = data["id"]
@@ -45,7 +41,7 @@ def edit_user():
             return jsonify(user)
     return jsonify({"message": "User not found"}), 404
 
-@app.route("/api/users", methods=["DELETE"])
+@app.delete("/api/users")
 def delete_user():
     data = request.get_json()
     target_id = data["id"]
