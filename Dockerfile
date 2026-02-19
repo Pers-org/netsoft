@@ -12,13 +12,14 @@ RUN python3.11 -m pip wheel -r requirements.txt -w /wheels
 
 FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y \
-    libpq5 \
-    libssl3 \
-    libkrb5-3 \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y \
+#     libpq5 \
+#     libssl3 \
+#     libkrb5-3 \
+#     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+
 COPY --from=builder /wheels /wheels
 
 RUN pip install --no-index --find-links=/wheels -r requirements.txt
