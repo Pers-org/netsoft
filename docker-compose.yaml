@@ -17,7 +17,11 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: db_host
+      DB_NAME: books
+      DB_USER: postgress_user
+      DB_PASSWORD: postgress_password
+      DB_HOST: db
+      DB_PORT: 5432
     ports:
       - "8000:8000"
 

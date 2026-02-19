@@ -1,10 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import random
+import os
 import psycopg
 
-conn = psycopg.connect("dbname=books user=postgress_user password=postgress_password host=db")
-
+conn = psycopg.connect(
+    dbname=os.getenv("DB_NAME", "books"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST", "127.0.0.1"),
+    port=int(os.getenv("DB_PORT", "5432")),
+)
 cur = conn.cursor()
 
 cur.execute('''

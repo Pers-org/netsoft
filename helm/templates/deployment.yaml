@@ -20,12 +20,16 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: POSTGRES_USER
-              value: "postgress_user"
-            - name: POSTGRES_PASSWORD
-              value: "postgress_password"
-            - name: POSTGRES_DB
+            - name: DB_HOST
+              value: "127.0.0.1"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
               value: "books"
+            - name: DB_USER
+              value: "postgress_user"
+            - name: DB_PASSWORD
+              value: "postgress_password"
 
         - name: netsoft-db
           image: postgres:alpine
