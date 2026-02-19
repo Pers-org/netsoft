@@ -42,6 +42,8 @@ spec:
               value: "postgress_password"
             - name: POSTGRES_DB
               value: "books"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: node-storage
               mountPath: /var/lib/postgresql/data
