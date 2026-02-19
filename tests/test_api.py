@@ -1,14 +1,14 @@
 import pytest
 from fastapi.testclient import TestClient
-from app.API import app, book_db
+from app.API import app
 
 client = TestClient(app)
 
 # clear db before any test
 @pytest.fixture(autouse=True)
-def clear_db():
-    book_db.clear()
-    yield
+# def clear_db():
+#     book_db.clear()
+#     yield
 
 
 # TEST GET (for all books)

@@ -4,7 +4,7 @@ metadata:
   name: netsoft
   namespace: netsoft
 spec:
-  replicas: {{.Values.deployment.replicas}}
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
       app: netsoft
@@ -15,7 +15,26 @@ spec:
     spec:
       containers:
         - name: netsoft
-          image: {{.Values.deployment.image}}
+          image: {{ .Values.deployment.image }}
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          env:
+            - name: POSTGRES_USER
+              value: "postgress_user"
+            - name: POSTGRES_PASSWORD
+              value: "postgress_password"
+            - name: POSTGRES_DB
+              value: "books"
+              
+        - name: netsoft_db
+          image: postgres:alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgress_user"
+            - name: POSTGRES_PASSWORD
+              value: "postgress_password"
+            - name: POSTGRES_DB
+              value: "books"

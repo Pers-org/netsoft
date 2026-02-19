@@ -68,6 +68,6 @@ jobs:
 
           echo "$IMAGE_LOW"
 
-          helm upgrade --install netsoft ./ \
+          helm upgrade --install netsoft ./helm \
             --namespace netsoft --create-namespace \
             --set deployment.image="$IMAGE_LOW"

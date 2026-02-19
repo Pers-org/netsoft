@@ -415,7 +415,33 @@ docker compose <имя_отдельного_приложения> # запуст
 
 Пример docker-compose:
 
+```
+version: "3.9"
 
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgress_user
+      POSTGRES_PASSWORD: postgress_password
+      POSTGRES_DB: books
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db_host
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
+```
 
 
 
