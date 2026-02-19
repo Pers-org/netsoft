@@ -1,0 +1,9 @@
+/.github
+/.git
+/.gitignore
+/.pytest_cache
+/examples
+/helm
+/tests
+/venv
+/__init__.py
