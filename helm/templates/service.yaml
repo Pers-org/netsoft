@@ -8,4 +8,16 @@ spec:
     app: netsoft
   ports:
     - port: 80
-      targetPort: 8000
+      targetPort: 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: netsoft
+spec:
+  clusterIP: None
+  selector:
+    app: postgres
+  ports:
+    - port: 5432

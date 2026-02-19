@@ -31,7 +31,7 @@ spec:
             - name: DB_PASSWORD
               value: "postgress_password"
 
-        - name: netsoft-db
+        {% comment %} - name: netsoft-db
           image: postgres:alpine
           ports:
             - containerPort: 5432
@@ -52,4 +52,4 @@ spec:
         - name: node-storage
           hostPath:
             path: /var/postgrsql_data
-            type: DirectoryOrCreate
+            type: DirectoryOrCreate {% endcomment %}
