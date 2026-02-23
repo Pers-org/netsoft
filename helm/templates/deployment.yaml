@@ -30,13 +30,28 @@ spec:
               value: "postgress_user"
             - name: DB_PASSWORD
               value: "postgress_password"
-
           volumeMounts:
             - name: db-volume
               mountPath: /var/db_data
 
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "books"
+            - name: POSTGRES_USER
+              value: "postgress_user"
+            - name: POSTGRES_PASSWORD
+              value: "postgress_password"
+            - name: PGDATA
+                value: "/var/lib/postgresql/data"
+          volumeMounts:
+            - name: db-volume
+              mountPath: /var/lib/postgresql/data
 
       volumes:
-      - name: db-volume
-        persistentVolumeClaim:
-          claimName: db-pvc
+        - name: db-volume
+          persistentVolumeClaim:
+            claimName: db-pvc
