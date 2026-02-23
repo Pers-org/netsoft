@@ -35,7 +35,7 @@ spec:
               mountPath: /var/db_data
 
         - name: postgres
-          image: postgres:postgres:alpine
+          image: postgres:alpine
           securityContext:
             runAsUser: 0
             runAsGroup: 0
