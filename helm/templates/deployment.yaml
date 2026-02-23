@@ -35,7 +35,7 @@ spec:
               mountPath: /var/db_data
 
         - name: postgres
-          image: postgres:16
+          image: postgres:alpine
           ports:
             - containerPort: 5432
           env:
