@@ -11,6 +11,17 @@
 # COPY requirements.txt . 
 # RUN python3.11 -m pip wheel -r requirements.txt -w /wheels
 
+# FROM python:3.11-slim
+
+# COPY requirements.txt .
+# COPY --from=builder /wheels /wheels
+
+# RUN pip install --no-index --find-links=/wheels -r requirements.txt
+
+# COPY ./app/API.py .
+
+# EXPOSE 8000
+# CMD ["python", "-m", "uvicorn", "API:app", "--host", "0.0.0.0", "--port", "8000"]
 
 FROM python:3.11-slim
 

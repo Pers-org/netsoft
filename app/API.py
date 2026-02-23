@@ -2,14 +2,24 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import os
 import psycopg
+import time
 
-conn = psycopg.connect(
-    dbname=os.getenv("DB_NAME", "books"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST", "127.0.0.1"),
-    port=int(os.getenv("DB_PORT", "5432")),
-)
+conn = None
+
+while conn is None:
+    try:
+        conn = psycopg.connect(
+            dbname=os.getenv("DB_NAME", "books"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            host=os.getenv("DB_HOST", "127.0.0.1"),
+            port=int(os.getenv("DB_PORT", "5432")),
+        )
+        print("Database connection established")
+    except psycopg.OperationalError as e:
+        print("Database not ready, retrying in 2 seconds...")
+        time.sleep(2)
+
 cur = conn.cursor()
 
 cur.execute('''
@@ -107,6 +117,8 @@ def post_book(book: Book):
     )
     
     row = cur.fetchone()
+    
+    conn.commit()
     
     return {
         "id": row[0],

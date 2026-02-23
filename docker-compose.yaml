@@ -7,8 +7,7 @@ services:
       POSTGRES_USER: postgress_user
       POSTGRES_PASSWORD: postgress_password
       POSTGRES_DB: books
-    ports:
-      - "5433:5432"
+      PGDATA: /var/lib/postgresql/data
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -24,6 +23,5 @@ services:
       DB_PORT: 5432
     ports:
       - "8000:8000"
-
 volumes:
   pgdata:

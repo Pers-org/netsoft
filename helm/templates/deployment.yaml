@@ -31,25 +31,12 @@ spec:
             - name: DB_PASSWORD
               value: "postgress_password"
 
-        {% comment %} - name: netsoft-db
-          image: postgres:alpine
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              value: "postgress_user"
-            - name: POSTGRES_PASSWORD
-              value: "postgress_password"
-            - name: POSTGRES_DB
-              value: "books"
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
-            - name: node-storage
-              mountPath: /var/lib/postgresql/data
+            - name: db-volume
+              mountPath: /var/db_data
+
 
       volumes:
-        - name: node-storage
-          hostPath:
-            path: /var/postgrsql_data
-            type: DirectoryOrCreate {% endcomment %}
+      - name: db-volume
+        persistentVolumeClaim:
+          claimName: db-pvc
