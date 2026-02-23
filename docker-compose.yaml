@@ -10,8 +10,7 @@ services:
       PGDATA: /var/lib/postgresql/data
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-  app:
+  app1:
     build: .
     depends_on:
       - db
@@ -21,7 +20,23 @@ services:
       DB_PASSWORD: postgress_password
       DB_HOST: db
       DB_PORT: 5432
+
+  app2:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_NAME: books
+      DB_USER: postgress_user
+      DB_PASSWORD: postgress_password
+      DB_HOST: db
+      DB_PORT: 5432
+  nginx:
+    image: nginx
     ports:
-      - "8000:8000"
+      - "8500:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
 volumes:
   pgdata:
