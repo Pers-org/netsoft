@@ -35,7 +35,11 @@ spec:
               mountPath: /var/db_data
 
         - name: postgres
-          image: postgres:alpine
+          image: postgres:postgres:16-alpine
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 5432
           env:
@@ -46,7 +50,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: "postgress_password"
             - name: PGDATA
-              value: "/var/lib/postgresql/data"
+              value: "/var/lib/postgresql/data/pgdata"
           volumeMounts:
             - name: db-volume
               mountPath: /var/lib/postgresql/data
