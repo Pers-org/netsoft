@@ -31,7 +31,12 @@ services:
       DB_PASSWORD: postgress_password
       DB_HOST: db
       DB_PORT: 5432
+
+
   nginx:
+    depends_on:
+      - app1
+      - app2
     image: nginx
     ports:
       - "8500:80"
